@@ -13,7 +13,7 @@ public class QueueProducer {
         Connection connection = connectionFactory.createConnection();
         //3.启动
         connection.start();
-        //4.获取session（） 参数1,是否启动事物
+        //4.获取session（） 参数1,是否启动事物,参数2 消息方式确认
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         //5.创建队列对象
         Queue queue = session.createQueue("test-queue");
