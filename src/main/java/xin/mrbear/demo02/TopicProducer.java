@@ -1,25 +1,24 @@
-package xin.mrbear.demo;
+package xin.mrbear.demo02;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class QueueProducer {
-
+public class TopicProducer {
     public static void main(String[] args) throws JMSException {
-        //1.创建工厂
+        //1.创建连接工厂
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://192.168.25.135:61616");
-        //2.创建连接
+        //2.获取连接
         Connection connection = connectionFactory.createConnection();
-        //3.启动
+        //3.启动连接
         connection.start();
-        //4.获取session（） 参数1,是否启动事物,参数2 消息方式确认 开启事物必须手动提交-用于提交一组消息
+        //4.获取session 核心工具
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        //5.创建队列对象
-        Queue queue = session.createQueue("test-queue");
-        //6.创建消息生产者
-        MessageProducer producer = session.createProducer(queue);
-        //7.创建消息(文本消息)
+        //5.创建主题对象
+        Topic topic = session.createTopic("test-topic");
+        //6.创建消费生产者
+        MessageProducer producer = session.createProducer(topic);
+        //7.创建消息
         TextMessage textMessage = session.createTextMessage("欢迎来到小熊的世界");
         //8.发送消息
         producer.send(textMessage);
@@ -28,5 +27,4 @@ public class QueueProducer {
         session.close();
         connection.close();
     }
-
 }
